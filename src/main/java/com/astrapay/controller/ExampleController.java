@@ -26,25 +26,51 @@ public class ExampleController {
         this.exampleService = exampleService;
     }
 
-    @GetMapping("/hello")
-    @ApiOperation(value = "Say Hello")
+    @GetMapping
+    @ApiOperation(value = "Get all notes")
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 200, message = "OK", response = ExampleDto.class)
+                        @ApiResponse(code = 200, message = "OK", response = String.class)
             }
     )
-    public ResponseEntity<String> sayHello(@RequestParam String name, @RequestParam String description) {
-        log.info("Incoming hello Request from " + name);
-
-        try {
-            ExampleDto exampleDto = new ExampleDto();
-            exampleDto.setName(name);
-            exampleDto.setDescription(description);
-
-            return ResponseEntity.ok(exampleService.sayHello(exampleDto));
-        } catch (ExampleException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<List<String>> getAllNotes() {
+        return ResponseEntity.ok(ExampleService.getAllNotes());
     }
 
+    @GetMapping("/get/{id}")
+    @ApiOperation(value = "Get note by ID")
+    @ApiResponses(
+            value = {
+                        @ApiResponse(code = 200, message = "OK", response = String.class)
+            }
+    )
+    public ResponseEntity<Optional<String>> getNoteById(@PathVariable String id) {
+        return ResponseEntity.ok(ExampleService.getNoteById(id));
+    }
+
+    @PostMapping
+    @ApiOperation(value = "Create a new note")
+    @ApiResponses(
+            value = {
+                        @ApiResponse(code = 201, message = "Created", response = String.class)
+            }
+    )
+    public ResponseEntity<String> createNote(@RequestBody @Validated ExampleDto ExampleDto) {
+        log.info("Creating new note: {} by {}", ExampleDto.getId(), ExampleDto.getName());
+        Note note = new Note(null, ExampleDto.getId(), ExampleDto.getName(), ExampleDto.getDescription());
+        return ResponseEntity.status(HttpStatus.CREATED).body(ExampleService.createNote(note));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ApiOperation(value = "Delete a note by ID")
+    @ApiResponses(
+            value = {
+                        @ApiResponse(code = 204, message = "No Content")
+            }
+    )
+    public ResponseEntity<Void> deleteNoteById(@PathVariable String id) {
+        ExampleService.deleteNoteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+
