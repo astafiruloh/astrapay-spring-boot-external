@@ -1,0 +1,22 @@
+<div class="container">
+  <h2>Notes List</h2>
+  <ul>
+    <li *ngFor="notes">
+      {{ note.id }} - {{ note.name }}: {{ note.description }}
+      <button (click)="deleteNote(note.id)">Delete</button>
+      <button (click)="getNoteById(note.id)">View</button>
+    </li>
+  </ul>
+  
+  <h3>Add Note</h3>
+  <input [(ngModel)]="newNote.name" placeholder="Name">
+  <input [(ngModel)]="newNote.description" placeholder="Description">
+  <button (click)="addNote()">Add</button>
+  
+  <div *ngIf="selectedNote">
+    <h3>Note Details</h3>
+    <p>ID: {{ selectedNote.id }}</p>
+    <p>Name: {{ selectedNote.name }}</p>
+    <p>Description: {{ selectedNote.description }}</p>
+  </div>
+</div>

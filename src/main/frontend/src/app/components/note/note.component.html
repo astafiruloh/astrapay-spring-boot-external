@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <h2>Daftar Catatan</h2>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let note of notes">
+      {{ note }}
+      <button class="btn btn-danger btn-sm float-end" (click)="deleteNote(note.split(':')[0])">
+        Hapus
+      </button>
+    </li>
+  </ul>
+
+  <h3 class="mt-4">Tambah Catatan</h3>
+  <form (submit)="addNote(); $event.preventDefault();">
+    <div class="mb-2">
+      <input type="text" class="form-control" placeholder="Judul" [(ngModel)]="newNote.title" name="title" required>
+    </div>
+    <div class="mb-2">
+      <textarea class="form-control" placeholder="Isi Catatan" [(ngModel)]="newNote.content" name="content" required></textarea>
+    </div>
+    <div class="mb-2">
+      <input type="text" class="form-control" placeholder="Nama" [(ngModel)]="newNote.name" name="name">
+    </div>
+    <div class="mb-2">
+      <input type="text" class="form-control" placeholder="Deskripsi" [(ngModel)]="newNote.description" name="description">
+    </div>
+    <button type="submit" class="btn btn-primary">Tambah</button>
+  </form>
+</div>

@@ -12,6 +12,7 @@ import com.astrapay.service.NoteService;
 
 import lombok.AllArgsConstructor;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/note")
