@@ -30,9 +30,14 @@ public class NoteServiceImpl implements NoteService {
 
     public Note saveNotes(Note note) {
         Note note = repo.getNotesById(note.getId()).get();
-        note.setName(note.getName());
-        note.setDescription(note.getDescription());
-        return repo.saveNotes(note);
+        if(note.getName().isEmpty() || note.getDescription().isEmpty()){
+            throw new NoteEmptyException();
+        }
+        else{
+            note.setName(note.getName());
+            note.setDescription(note.getDescription());
+            return repo.saveNotes(note);
+        }
     }
 
     public void deleteById(Long id) {      

@@ -9,6 +9,6 @@ import java.util.*;;
 public interface NoteRepository extends CrudRepository<Note, Long>{
     Optional<Note> getNotes();
     Optional<Note> getNotesById(Long id);
-    void saveNotes(Note note);
+    Optional<Note> saveNotes(Note note);
     void deleteById(Long id);
 }
